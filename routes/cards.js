@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
                     c.id,
                     c.account_id,
                     c.card_number_encrypted,
+                    SUBSTR(c.card_number_encrypted, -4) as last_four,
                     c.card_type,
                     c.card_brand,
                     c.expiry_date,

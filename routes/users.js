@@ -423,10 +423,22 @@ router.get('/dashboard', async (req, res) => {
 
         const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
 
+        // Calculate total income (credit transactions)
+        const totalIncome = recentTransactions
+            .filter(tx => tx.transaction_type === 'credit')
+            .reduce((sum, tx) => sum + tx.amount, 0);
+
+        // Calculate total expenses (debit transactions)
+        const totalExpenses = recentTransactions
+            .filter(tx => tx.transaction_type === 'debit')
+            .reduce((sum, tx) => sum + tx.amount, 0);
+
         res.json({
             success: true,
             dashboard: {
                 totalBalance,
+                totalIncome,
+                totalExpenses,
                 totalAccounts: accounts.length,
                 recentTransactions,
                 pendingTransfers,
