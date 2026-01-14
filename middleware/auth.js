@@ -94,11 +94,11 @@ async function verifyAccountOwnership(req, res, next) {
 // Log login attempt
 function logLoginAttempt(userId, success, method, ipAddress, userAgent, location, failureReason = null) {
     const sql = `
-        INSERT INTO login_history (user_id, success, login_method, ip_address, user_agent, location, failure_reason)
+        INSERT INTO login_history (user_id, ip_address, user_agent, location, login_method, success, failure_reason)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    db.run(sql, [userId, success, method, ipAddress, userAgent, location, failureReason], (err) => {
+    db.run(sql, [userId, ipAddress, userAgent, location, method, success, failureReason], (err) => {
         if (err) console.error('Error logging login attempt:', err);
     });
 }
